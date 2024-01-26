@@ -247,6 +247,7 @@ class SellerProductController extends Controller
             'long_description' => 'required',
             'price' => 'required|numeric',
             'weight' => 'required',
+            'quantity' => 'required|numeric',
         ];
         $customMessages = [
             'short_name.required' => trans('admin_validation.Short name is required'),
@@ -265,6 +266,7 @@ class SellerProductController extends Controller
             'quantity.required' => trans('admin_validation.Quantity is required'),
             'status.required' => trans('admin_validation.Status is required'),
             'weight.required' => trans('admin_validation.Weight is required'),
+            'quantity.required' => trans('admin_validation.Quantity is required'),
         ];
         $this->validate($request, $rules,$customMessages);
 
@@ -286,6 +288,7 @@ class SellerProductController extends Controller
         $product->short_name = $request->short_name;
         $product->name = $request->name;
         $product->slug = $request->slug;
+        $product->qty = $request->quantity;
         $product->category_id = $request->category;
         $product->sub_category_id = $request->sub_category ? $request->sub_category : 0;
         $product->child_category_id = $request->child_category ? $request->child_category : 0;

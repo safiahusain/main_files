@@ -59,7 +59,7 @@ class CountryStateController extends Controller
 
         $notification=trans('admin_validation.Created Successfully');
         $notification=array('messege'=>$notification,'alert-type'=>'success');
-        return redirect()->back()->with($notification);
+        return redirect()->route('admin.state.index')->with($notification);
     }
 
 

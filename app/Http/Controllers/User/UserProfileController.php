@@ -31,7 +31,7 @@ use App\Events\SellerToUser;
 use App\Models\OrderAddress;
 use App\Models\OrderProductVariant;
 use App\Models\Address;
-
+use App\Models\Currency;
 use App\Models\ShoppingCart;
 use App\Models\ShoppingCartVariant;
 
@@ -241,6 +241,52 @@ class UserProfileController extends Controller
     public function stateByCountry($id){
         $states = CountryState::select('id','name')->where(['status' => 1, 'country_id' => $id])->get();
         return response()->json(['states'=>$states]);
+    }
+
+    public function getCurrencyData()
+    {
+        $currency = Currency::select('id','name','code','rate','status')->where('status',1)->get();
+        return response()->json(['currency'=>$currency]);
+    }
+
+    public function updateAmount($product_id, $currency_id)
+    {
+        $product        =   Product::where('id',$product_id)->first();
+        $notification   =   trans('admin_validation.Product not found');
+        $type           =   'info';
+
+        if($product)
+        {
+            $price          =   $product->offer_price
+                                ?   $product->offer_price
+                                :   ($product->price
+                                    ?   $product->price
+                                    :   null);
+            $notification   =   trans('admin_validation.Parice not found');
+            $type           =   'info';
+
+            if($price)
+            {
+                $currency       =   Currency::where('id',$currency_id)->first();
+                $notification   =   trans('admin_validation.Currency not found');
+                $type           =   'info';
+
+                if($currency)
+                {
+                    $currency_rate  =   $currency->rate     ?   $currency->rate :   null;
+                    $notification   =   trans('admin_validation.Currency rate not define');
+                    $type           =   'info';
+
+                    if($currency_rate)
+                    {
+                        $amount     =   number_format($price*$currency_rate,2);
+                    }
+                }
+            }
+        }
+
+        $notification   =   array('messege'=>$notification,'alert-type'=>$type);
+        return response()->json(['amount'=>$amount]);
     }
 
     public function cityByState($id){

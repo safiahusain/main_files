@@ -51,7 +51,7 @@ class ProductController extends Controller
     }
 
     public function sellerProduct(){
-        $products = Product::with('category','seller','brand')->where('vendor_id','!=',0)->where('status',1)->get();
+        $products = Product::with('category','seller','brand')->where('vendor_id','!=',0)->where('approve_by_admin',1)->get();
         $orderProducts = OrderProduct::all();
         $setting = Setting::first();
         $frontend_url = $setting->frontend_url;

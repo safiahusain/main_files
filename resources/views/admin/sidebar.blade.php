@@ -164,6 +164,8 @@
                 <li class="{{ Route::is('admin.coupon.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.coupon.index') }}">{{__('admin.Coupon')}}</a></li>
 
                 <li class="{{ Route::is('admin.payment-method') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.payment-method') }}">{{__('admin.Payment Method')}}</a></li>
+
+                <li class="{{ Route::is('admin.add-currencies') ? 'active' : '' }}"><a class="nav-link" href="{{ route('admin.add-currencies') }}">{{__('admin.Currencies')}}</a></li>
             </ul>
 
           </li>

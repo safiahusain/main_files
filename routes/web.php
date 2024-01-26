@@ -456,6 +456,8 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
 
     Route::get('advertisement',[AdvertisementController::class, 'index'])->name('advertisement');
     Route::post('mega-menu-banner-update', [AdvertisementController::class, 'megaMenuBannerUpdate'])->name('mega-menu-banner-update');
+    Route::post('slider-banner', [AdvertisementController::class, 'updateSliderBanner'])->name('slider-banner');
+    Route::post('category-banner', [AdvertisementController::class, 'updateCategoryBanner'])->name('category-banner');
     Route::post('slider-banner-one', [AdvertisementController::class, 'updateSliderBannerOne'])->name('slider-banner-one');
     Route::post('slider-banner-two', [AdvertisementController::class, 'updateSliderBannerTwo'])->name('slider-banner-two');
     Route::post('slider-banner-third', [AdvertisementController::class, 'updateSliderBannerThird'])->name('slider-banner-third');
@@ -486,6 +488,19 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
     Route::get('country-export',[CountryController::class,'country_export'])->name('country-export');
     Route::get('country-demo-export',[CountryController::class,'demo_country_export'])->name('country-demo-export');
     Route::post('country-import',[CountryController::class,'country_import'])->name('country-import');
+
+    Route::get('test_controller',[CountryController::class,'test'])->name('test');
+    Route::get('add-currencies',[CountryController::class,'currencyIndex'])->name('add-currencies');
+    Route::get('currency-create',[CountryController::class,'currencyCreate'])->name('currency-create');
+    Route::post('currency-store',[CountryController::class,'currencyStore'])->name('currency-store');
+    Route::get('currency-edit/{id}',[CountryController::class,'currencyEdit'])->name('currency-edit');
+    Route::post('currency-update/{id}',[CountryController::class,'currencyUpdate'])->name('currency-update');
+    Route::delete('currency-destroy/{id}',[CountryController::class,'currencyDestroy'])->name('currency-destroy');
+    Route::put('currency-status/{id}',[CountryController::class,'changeCurrencyStatus'])->name('currency-status');
+    Route::get('currency-import-page',[CountryController::class,'currency_import_page'])->name('currency-import-page');
+    Route::get('currency-export',[CountryController::class,'currency_export'])->name('currency-export');
+    Route::get('currency-demo-export',[CountryController::class,'demo_currency_export'])->name('currency-demo-export');
+    Route::post('currency-import',[CountryController::class,'currency_import'])->name('currency-import');
 
     Route::resource('state', CountryStateController::class);
     Route::put('state-status/{id}',[CountryStateController::class,'changeStatus'])->name('state-status');

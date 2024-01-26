@@ -41,6 +41,7 @@ Route::group(['middleware' => ['maintainance','HtmlSpecialchars']], function () 
     Route::get('/category/{id}', [HomeController::class, 'category'])->name('category');
     Route::get('/sub-category/{id}', [HomeController::class, 'subCategory'])->name('sub-category');
     Route::get('/child-category/{id}', [HomeController::class, 'childCategory'])->name('child-category');
+    Route::get('/filter/data/{price}/{category}/{brand}', [HomeController::class, 'filterData'])->name('filter-data');
 
     Route::get('/product-by-category/{id}', [HomeController::class, 'productByCategory'])->name('product-by-category');
 
@@ -156,6 +157,8 @@ Route::group(['middleware' => ['maintainance','HtmlSpecialchars']], function () 
 
         Route::get('state-by-country/{id}', [UserProfileController::class, 'stateByCountry'])->name('state-by-country');
         Route::get('city-by-state/{id}', [UserProfileController::class, 'cityByState'])->name('city-by-state');
+        Route::get('/get/currency/data', [UserProfileController::class, 'getCurrencyData'])->name('get-currency-data');
+        Route::get('/convert/amount/{product_id}/{currency_id}', [UserProfileController::class, 'updateAmount'])->name('update-amount');
     });
 
 

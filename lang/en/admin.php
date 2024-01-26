@@ -1,5 +1,9 @@
 <?php
  return array (
+  'Currencies'    =>  'Currencies',
+  'Create Currency'    =>  'Create Currency',
+  'Edit Currency'    =>  'Edit Currency',
+  'Currency Rate'    =>  'Currency Rate',
   'About Us' => 'About Us',
   'Dashboard' => 'Dashboard',
   'First Image' => 'First Image',

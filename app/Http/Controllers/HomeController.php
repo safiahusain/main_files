@@ -195,8 +195,6 @@ class HomeController extends Controller
 
     }
 
-
-
     public function subCategoriesByCategory($id)
     {
         $subCategories = SubCategory::where([
@@ -246,7 +244,7 @@ class HomeController extends Controller
     {
         $category = Category::find($id);
         $products = Product::with("activeVariants.activeVariantItems")->where(["category_id" => $id, "status" => 1,"approve_by_admin" => 1,
-        ])->select("id","name","short_name","slug","thumb_image","qty","sold_qty","price","offer_price","is_undefine","is_featured","new_product","is_top","is_best","category_id","sub_category_id","child_category_id","brand_id")->orderBy("id", "desc")->get();
+        ])->where('qty','>=',0)->select("id","name","short_name","slug","thumb_image","qty","sold_qty","price","offer_price","is_undefine","is_featured","new_product","is_top","is_best","category_id","sub_category_id","child_category_id","brand_id")->orderBy("id", "desc")->get();
 
         return response()->json([
             "category" => $category,
@@ -313,6 +311,7 @@ class HomeController extends Controller
                 "brand_id"
             )
             ->whereIn("category_id", $category_arr)
+            ->where('qty','>=',0)
             ->where("status", 1)
             ->where("approve_by_admin", 1)
             ->orderBy("id", "desc")
@@ -345,6 +344,7 @@ class HomeController extends Controller
         $topRatedProducts = Product::with("activeVariants.activeVariantItems")
             ->select("id","name","short_name","slug","thumb_image","qty","sold_qty","price","offer_price","is_undefine","is_featured","new_product","is_top","is_best","category_id","sub_category_id","child_category_id","brand_id")
             ->where(["is_top" => 1, "status" => 1, "approve_by_admin" => 1])
+            ->where('qty','>=',0)
             ->orderBy("id", "desc")
             ->get()
             ->take($topRatedVisibility->qty);
@@ -400,6 +400,7 @@ class HomeController extends Controller
             )
             ->whereIn("category_id", $category_arr)
             ->where(["status" => 1, "approve_by_admin" => 1])
+            ->where('qty','>=',0)
             ->orderBy("id", "desc")
             ->get()
             ->take($featuredProductVisibility->qty);
@@ -444,6 +445,7 @@ class HomeController extends Controller
                 "status" => 1,
                 "approve_by_admin" => 1,
             ])
+            ->where('qty','>=',0)
             ->orderBy("id", "desc")
             ->get()
             ->take($newArrivalProductVisibility->qty);
@@ -484,6 +486,7 @@ class HomeController extends Controller
                 "brand_id"
             )
             ->where(["is_best" => 1, "status" => 1, "approve_by_admin" => 1])
+            ->where('qty','>=',0)
             ->orderBy("id", "desc")
             ->get()
             ->take($bestProductVisibility->qty);
@@ -516,6 +519,7 @@ class HomeController extends Controller
             ->whereIn("id", $product_arr)
             ->orderBy("id", "desc")
             ->where(["status" => 1, "approve_by_admin" => 1])
+            ->where('qty','>=',0)
             ->select(
                 "id",
                 "name",
@@ -871,6 +875,7 @@ class HomeController extends Controller
         $paginateQty = CustomPagination::whereId("2")->first()->qty;
 
         $products = Product::with("activeVariants.activeVariantItems")
+            ->where('qty','>=',0)
             ->orderBy("id", "desc")
             ->where([
                 "status" => 1,
@@ -1027,6 +1032,7 @@ class HomeController extends Controller
         $paginateQty = CustomPagination::whereId("2")->first()->qty;
 
         $products = Product::with("activeVariants.activeVariantItems")
+            ->where('qty','>=',0)
             ->orderBy("id", "desc")
             ->where(["status" => 1, "approve_by_admin" => 1]);
 
@@ -1159,6 +1165,7 @@ class HomeController extends Controller
         $paginateQty = CustomPagination::whereId("2")->first()->qty;
         if ($request->variantItems) {
             $products = Product::with("activeVariants.activeVariantItems")
+                ->where('qty','>=',0)
                 ->whereHas("variantItems", function ($query) use ($request) {
                     $sortArr = [];
                     if ($request->variantItems) {
@@ -1172,6 +1179,7 @@ class HomeController extends Controller
                 ->where("approve_by_admin", 1);
         } else {
             $products = Product::with("activeVariants.activeVariantItems")
+                ->where('qty','>=',0)
                 ->where("status", 1)
                 ->where("approve_by_admin", 1);
         }
@@ -1344,6 +1352,7 @@ class HomeController extends Controller
             "avgReview"
         )
         ->where(["status" => 1, "slug" => $slug])
+        ->where('qty','>=',0)
         ->first();
 
         if (!$product) {
@@ -1376,6 +1385,7 @@ class HomeController extends Controller
                 "approve_by_admin" => 1,
             ])
             ->where("id", "!=", $product->id)
+            ->where('qty','>=',0)
             ->get()
             ->take(10);
 
@@ -1403,6 +1413,7 @@ class HomeController extends Controller
                 "approve_by_admin" => 1,
             ])
             ->where("id", "!=", $product->id)
+            ->where('qty','>=',0)
             ->get()
             ->take(10);
         }
@@ -1422,6 +1433,7 @@ class HomeController extends Controller
                 "vendor_id" => $product->vendor_id,
                 "approve_by_admin" => 1,
             ])
+            ->where('qty','>=',0)
             ->count();
         }
 
@@ -1554,6 +1566,7 @@ class HomeController extends Controller
         $products = Product::with("activeVariants.activeVariantItems")
             ->whereIn("id", $product_arr)
             ->orderBy("id", "desc")
+            ->where('qty','>=',0)
             ->where(["status" => 1, "approve_by_admin" => 1])
             ->select(
                 "id",
