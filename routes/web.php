@@ -490,6 +490,7 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
     Route::post('country-import',[CountryController::class,'country_import'])->name('country-import');
 
     Route::get('test_controller',[CountryController::class,'test'])->name('test');
+    Route::put('currency-status/{id}',[CountryController::class,'changeCurrencyStatus'])->name('currency-status');
     Route::get('add-currencies',[CountryController::class,'currencyIndex'])->name('add-currencies');
     Route::get('currency-create',[CountryController::class,'currencyCreate'])->name('currency-create');
     Route::post('currency-store',[CountryController::class,'currencyStore'])->name('currency-store');

@@ -120,7 +120,6 @@ class CountryController extends Controller
         return response()->json($message);
     }
 
-
     public function country_import_page()
     {
         return view('admin.country_import_page');
@@ -264,6 +263,20 @@ class CountryController extends Controller
 
         $notification=array('messege'=>$notification,'alert-type'=>$type);
         return redirect()->route('admin.add-currencies')->with($notification);
+    }
+
+    public function changeCurrencyStatus($id){
+        $country = Currency::find($id);
+        if($country->status==1){
+            $country->status=0;
+            $country->save();
+            $message= trans('admin_validation.Inactive Successfully');
+        }else{
+            $country->status=1;
+            $country->save();
+            $message= trans('admin_validation.Active Successfully');
+        }
+        return response()->json($message);
     }
 
     public function currencyDestroy($id)
