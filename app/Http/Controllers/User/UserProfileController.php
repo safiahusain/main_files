@@ -243,52 +243,6 @@ class UserProfileController extends Controller
         return response()->json(['states'=>$states]);
     }
 
-    public function getCurrencyData()
-    {
-        $currency = Currency::select('id','name','code','rate','status')->where('status',1)->get();
-        return response()->json(['currency'=>$currency]);
-    }
-
-    public function updateAmount($product_id, $currency_id)
-    {
-        $product        =   Product::where('id',$product_id)->first();
-        $notification   =   trans('admin_validation.Product not found');
-        $type           =   'info';
-
-        if($product)
-        {
-            $price          =   $product->offer_price
-                                ?   $product->offer_price
-                                :   ($product->price
-                                    ?   $product->price
-                                    :   null);
-            $notification   =   trans('admin_validation.Parice not found');
-            $type           =   'info';
-
-            if($price)
-            {
-                $currency       =   Currency::where('id',$currency_id)->first();
-                $notification   =   trans('admin_validation.Currency not found');
-                $type           =   'info';
-
-                if($currency)
-                {
-                    $currency_rate  =   $currency->rate     ?   $currency->rate :   null;
-                    $notification   =   trans('admin_validation.Currency rate not define');
-                    $type           =   'info';
-
-                    if($currency_rate)
-                    {
-                        $amount     =   number_format($price*$currency_rate,2);
-                    }
-                }
-            }
-        }
-
-        $notification   =   array('messege'=>$notification,'alert-type'=>$type);
-        return response()->json(['amount'=>$amount]);
-    }
-
     public function cityByState($id){
         $cities = City::select('id','country_state_id','name')->where(['status' => 1, 'country_state_id' => $id])->get();
         return response()->json(['cities'=>$cities]);

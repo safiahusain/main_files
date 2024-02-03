@@ -68,6 +68,8 @@ Route::group(['middleware' => ['maintainance','HtmlSpecialchars']], function () 
     Route::get('/search-product', [HomeController::class, 'searchProduct'])->name('search-product');
     Route::get('/product/{slug}', [HomeController::class, 'productDetail'])->name('product-detail');
     Route::get('/product-review-list/{id}', [HomeController::class, 'productReviewList'])->name('product-review-list');
+    Route::get('/get/currency/data', [HomeController::class, 'getCurrencyData'])->name('get-currency-data');
+    Route::get('/convert/amount/{product_id}/{currency_id}', [HomeController::class, 'updateAmount'])->name('update-amount');
 
     Route::get('/compare', [HomeController::class, 'compare'])->name('compare');
     Route::get('/add-to-compare/{id}', [HomeController::class, 'addToCompare'])->name('add-to-compare');
@@ -157,8 +159,6 @@ Route::group(['middleware' => ['maintainance','HtmlSpecialchars']], function () 
 
         Route::get('state-by-country/{id}', [UserProfileController::class, 'stateByCountry'])->name('state-by-country');
         Route::get('city-by-state/{id}', [UserProfileController::class, 'cityByState'])->name('city-by-state');
-        Route::get('/get/currency/data', [UserProfileController::class, 'getCurrencyData'])->name('get-currency-data');
-        Route::get('/convert/amount/{product_id}/{currency_id}', [UserProfileController::class, 'updateAmount'])->name('update-amount');
     });
 
 

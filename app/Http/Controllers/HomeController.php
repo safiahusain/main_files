@@ -24,6 +24,7 @@ use App\Models\Faq;
 use App\Models\CustomPage;
 use App\Models\TermsAndCondition;
 use App\Models\Vendor;
+use App\Models\Currency;
 use App\Models\Subscriber;
 use App\Mail\SubscriptionVerification;
 use App\Mail\ContactMessageInformation;
@@ -193,6 +194,70 @@ class HomeController extends Controller
             "image_content" => $image_content,
         ]);
 
+    }
+
+
+    public function getCurrencyData()
+    {
+        $currency = Currency::select('id','name','code','rate','status')->where('status',1)->get();
+        return response()->json(['currency'=>$currency]);
+    }
+
+    public function updateAmount(Request $request, $product_id, $currency_id)
+    {
+        $product        =   Product::where('id',$product_id)->first();
+        $notification   =   trans('admin_validation.Product not found');
+        $type           =   'info';
+        $success        =   false;
+
+        if($product)
+        {
+            $price          =   $product->offer_price
+                                ?   $product->offer_price
+                                :   ($product->price
+                                    ?   $product->price
+                                    :   null);
+            $notification   =   trans('admin_validation.Price not found');
+            $type           =   'info';
+            $success        =   false;
+
+            if($price)
+            {
+                $currency       =   Currency::where('id',$currency_id)->first();
+                $notification   =   trans('admin_validation.Currency not found');
+                $type           =   'info';
+                $success        =   false;
+
+                if($currency)
+                {
+                    $currency_rate  =   $currency->rate     ?   $currency->rate :   null;
+                    $notification   =   trans('admin_validation.Currency rate not define');
+                    $type           =   'info';
+                    $success        =   false;
+
+                    if($currency_rate)
+                    {
+                        $amount     =   number_format($price*$currency_rate,2);
+
+                        if($amount)
+                        {
+                            return response()->json([
+                                'success'  =>  true,
+                                'amount'    =>  $amount,
+                                'currency'  =>  $currency->name,
+                                'code'      =>  $currency->code,
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'success'   =>  $success,
+            'type'      =>  $type,
+            'message'   =>  $notification,
+        ]);
     }
 
     public function subCategoriesByCategory($id)

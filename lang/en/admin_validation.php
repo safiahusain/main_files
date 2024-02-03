@@ -1,5 +1,9 @@
 <?php
  return array (
+    'Code already exists'     =>  'Code already exists',
+    'Price not found'     =>  'Price not found',
+    'Currency not found'     =>  'Currency not found',
+    'Currency rate not define'     =>  'Currency rate not define',
   'Description is required' => 'Description is required',
   'Updated Successfully' => 'Updated Successfully',
   'Banner is required' => 'Banner is required',
