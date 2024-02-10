@@ -380,6 +380,7 @@ class HomeController extends Controller
             ->where("status", 1)
             ->where("approve_by_admin", 1)
             ->orderBy("id", "desc")
+            ->with('brand')
             ->get()
             ->take($popularCategoryVisibilty->qty);
 
